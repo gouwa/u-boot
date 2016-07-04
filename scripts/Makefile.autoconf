@@ -87,6 +87,7 @@ $(error $(shell echo "Error: Can not find $(CONFIG_SYS_CONFIG_NAME).h"))
 endif
 endif
 endif
+endif
 
 #$(warning "final file"$(config_file))
 
