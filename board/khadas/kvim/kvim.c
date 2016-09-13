@@ -1,5 +1,4 @@
 /*
- *
  * Copyright (C) 2015 Amlogic, Inc. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -30,10 +29,9 @@
 #ifdef CONFIG_AML_VPU
 #include <vpu.h>
 #endif
-/* #include <vpp.h> */
 #ifdef CONFIG_AML_V2_FACTORY_BURN
 #include <amlogic/aml_v2_burning.h>
-#endif// #ifdef CONFIG_AML_V2_FACTORY_BURN
+#endif
 #ifdef CONFIG_AML_HDMITX20
 #include <amlogic/hdmi.h>
 #endif
@@ -67,6 +65,7 @@ int dram_init(void)
 void secondary_boot_func(void)
 {
 }
+
 void internalPhyConfig(struct phy_device *phydev)
 {
 	/*Enable Analog and DSP register Bank access by*/
@@ -87,7 +86,6 @@ void internalPhyConfig(struct phy_device *phydev)
 	phy_write(phydev, MDIO_DEVAD_NONE, 0x17, 0xAAAA);
 	phy_write(phydev, MDIO_DEVAD_NONE, 0x14, 0x5C1C);
 }
-
 
 static void setup_net_chip(void)
 {
@@ -121,7 +119,6 @@ static void setup_net_chip(void)
 	clrbits_le32(HHI_MEM_PD_REG0, (1 << 3) | (1<<2));
 
 }
-
 
 extern struct eth_board_socket* eth_board_setup(char *name);
 extern int designware_initialize(ulong base_addr, u32 interface);
@@ -174,7 +171,7 @@ static int  sd_emmc_detect(unsigned port)
 			if (!(readl(P_PREG_PAD_GPIO2_I) & (1 << 24))) {
 				printf("sdio debug board detected, sd card with 1bit mode\n");
 				sd_debug_board_1bit_flag = 1;
-			} else{
+			} else {
 				printf("sdio debug board detected, no sd card in\n");
 				sd_debug_board_1bit_flag = 0;
 				return 1;
@@ -187,7 +184,6 @@ static int  sd_emmc_detect(unsigned port)
 	return 0;
 }
 
-
 static void sd_emmc_pwr_prepare(unsigned port)
 {
 	cpu_sd_emmc_pwr_prepare(port);
@@ -195,14 +191,13 @@ static void sd_emmc_pwr_prepare(unsigned port)
 
 static void sd_emmc_pwr_on(unsigned port)
 {
-    switch (port)
-	{
+    switch (port) {
 		case SDIO_PORT_A:
 			break;
 		case SDIO_PORT_B:
-//            clrbits_le32(P_PREG_PAD_GPIO5_O,(1<<31)); //CARD_8
-//            clrbits_le32(P_PREG_PAD_GPIO5_EN_N,(1<<31));
-			/// @todo NOT FINISH
+            //clrbits_le32(P_PREG_PAD_GPIO5_O,(1<<31)); //CARD_8
+            //clrbits_le32(P_PREG_PAD_GPIO5_EN_N,(1<<31));
+			// @todo NOT FINISH
 			break;
 		case SDIO_PORT_C:
 			break;
@@ -211,16 +206,16 @@ static void sd_emmc_pwr_on(unsigned port)
 	}
 	return;
 }
+
 static void sd_emmc_pwr_off(unsigned port)
 {
-	/// @todo NOT FINISH
-    switch (port)
-	{
+	//@todo NOT FINISH
+    switch (port) {
 		case SDIO_PORT_A:
 			break;
 		case SDIO_PORT_B:
-//            setbits_le32(P_PREG_PAD_GPIO5_O,(1<<31)); //CARD_8
-//            clrbits_le32(P_PREG_PAD_GPIO5_EN_N,(1<<31));
+            //setbits_le32(P_PREG_PAD_GPIO5_O,(1<<31)); //CARD_8
+            //clrbits_le32(P_PREG_PAD_GPIO5_EN_N,(1<<31));
 			break;
 		case SDIO_PORT_C:
 			break;
@@ -230,7 +225,7 @@ static void sd_emmc_pwr_off(unsigned port)
 	return;
 }
 
-// #define CONFIG_TSD      1
+//#define CONFIG_TSD      1
 static void board_mmc_register(unsigned port)
 {
 	struct aml_card_sd_info *aml_priv=cpu_sd_emmc_get(port);
@@ -251,6 +246,7 @@ static void board_mmc_register(unsigned port)
 
 	sd_emmc_register(aml_priv);
 }
+
 int board_mmc_init(bd_t	*bis)
 {
 #ifdef CONFIG_VLSI_EMULATOR
@@ -260,7 +256,7 @@ int board_mmc_init(bd_t	*bis)
 #endif
 	board_mmc_register(SDIO_PORT_B);
 	board_mmc_register(SDIO_PORT_C);
-//	board_mmc_register(SDIO_PORT_B1);
+	//board_mmc_register(SDIO_PORT_B1);
 	return 0;
 }
 
@@ -268,12 +264,12 @@ int board_mmc_init(bd_t	*bis)
 #if 0
 static void board_i2c_set_pinmux(void){
 	/*********************************************/
-	/*                | I2C_Master_AO        |I2C_Slave            |       */
+	/*           | I2C_Master_AO       |I2C_Slave          |     */
 	/*********************************************/
-	/*                | I2C_SCK                | I2C_SCK_SLAVE  |      */
+	/*           | I2C_SCK             | I2C_SCK_SLAVE     |     */
 	/* GPIOAO_4  | [AO_PIN_MUX: 6]     | [AO_PIN_MUX: 2]   |     */
 	/*********************************************/
-	/*                | I2C_SDA                 | I2C_SDA_SLAVE  |     */
+	/*           | I2C_SDA             | I2C_SDA_SLAVE     |     */
 	/* GPIOAO_5  | [AO_PIN_MUX: 5]     | [AO_PIN_MUX: 1]   |     */
 	/*********************************************/
 
@@ -286,6 +282,7 @@ static void board_i2c_set_pinmux(void){
 	udelay(10);
 };
 #endif
+
 struct aml_i2c_platform g_aml_i2c_plat = {
 	.wait_count         = 1000000,
 	.wait_ack_interval  = 5,
@@ -301,6 +298,7 @@ struct aml_i2c_platform g_aml_i2c_plat = {
 		.sda_bit    = MESON_I2C_MASTER_AO_GPIOAO_5_BIT,
 	}
 };
+
 #if 0
 static void board_i2c_init(void)
 {
@@ -334,7 +332,7 @@ struct amlogic_usb_config g_usb_config_GXL_skt={
 	CONFIG_GXL_USB_PHY2_BASE,
 	CONFIG_GXL_USB_PHY3_BASE,
 };
-#endif /*CONFIG_USB_XHCI_AMLOGIC*/
+#endif
 
 #ifdef CONFIG_AML_HDMITX20
 static void hdmi_tx_set_hdmi_5v(void)
@@ -351,6 +349,7 @@ int board_init(void)
 #ifdef CONFIG_AML_V2_FACTORY_BURN
 	aml_try_factory_usb_burning(0, gd->bd);
 #endif// #ifdef CONFIG_AML_V2_FACTORY_BURN
+
 	/*for LED*/
 	//clear pinmux
 	clrbits_le32(AO_RTI_PIN_MUX_REG, ((1<<3)|(1<<4)));
@@ -362,32 +361,38 @@ int board_init(void)
 
 	/*Power on GPIOAO_2 for VCC_5V*/
 	clrbits_le32(P_AO_GPIO_O_EN_N, ((1<<2)|(1<<18)));
+
 #ifdef CONFIG_USB_XHCI_AMLOGIC_GXL
 	board_usb_init(&g_usb_config_GXL_skt,BOARD_USB_MODE_HOST);
-#endif /*CONFIG_USB_XHCI_AMLOGIC*/
+#endif
+
 #ifdef CONFIG_AML_VPU
 	vpu_probe();
 #endif
-/* vpp_init(); */
+	/*vpp_init();*/
+
 #ifndef CONFIG_AML_IRDETECT_EARLY
 #ifdef CONFIG_AML_HDMITX20
 	hdmi_tx_set_hdmi_5v();
 	hdmi_tx_init();
 #endif
 #endif
+
 #ifdef CONFIG_AML_NAND
 	extern int amlnf_init(unsigned char flag);
 	amlnf_init(0);
 #endif
+
 	return 0;
 }
+
 #ifdef CONFIG_AML_IRDETECT_EARLY
 #ifdef CONFIG_AML_HDMITX20
 static int do_hdmi_init(cmd_tbl_t *cmdtp, int flag, int argc, char *const argv[])
 {
 	hdmi_tx_set_hdmi_5v();
 	hdmi_tx_init();
-return 0;
+	return 0;
 }
 
 U_BOOT_CMD(hdmi_init, CONFIG_SYS_MAXARGS, 0, do_hdmi_init,
@@ -395,8 +400,9 @@ U_BOOT_CMD(hdmi_init, CONFIG_SYS_MAXARGS, 0, do_hdmi_init,
 	"hdmit init\n")
 #endif
 #endif
+
 #ifdef CONFIG_BOARD_LATE_INIT
-int board_late_init(void){
+int board_late_init(void) {
 	int ret;
 
 	//update env before anyone using it
@@ -407,7 +413,6 @@ int board_late_init(void){
 				"defenv_reserv; setenv upgrade_step 2; saveenv; fi;", 0);
 
 #ifndef CONFIG_AML_IRDETECT_EARLY
-	/* after  */
 #ifdef CONFIG_AML_CVBS
 	run_command("cvbs init;hdmitx hpd", 0);
 #else
@@ -415,6 +420,7 @@ int board_late_init(void){
 #endif
 	run_command("vout output $outputmode", 0);
 #endif
+
 	/*add board late init function here*/
 	ret = run_command("store dtb read $dtb_mem_addr", 1);
 	if (ret) {
@@ -429,9 +435,10 @@ int board_late_init(void){
 		}
 		#endif
 	}
+
 #ifdef CONFIG_AML_V2_FACTORY_BURN
 	aml_try_factory_sdcard_burning(0, gd->bd);
-#endif// #ifdef CONFIG_AML_V2_FACTORY_BURN
+#endif
 
 	if (get_cpu_id().family_id == MESON_CPU_MAJOR_ID_GXL) {
 		setenv("maxcpus","4");
