@@ -42,7 +42,7 @@
 #define CONFIG_VDDEE_SLEEP_VOLTAGE	 850		// voltage for suspend
 
 /* configs for CEC */
-#define CONFIG_CEC_OSD_NAME		"KVim"
+#define CONFIG_CEC_OSD_NAME		"Vim"
 #define CONFIG_CEC_WAKEUP
 
 #define CONFIG_INSTABOOT
@@ -318,7 +318,7 @@
 	#define CONFIG_CMD_PING 1
 	#define CONFIG_CMD_DHCP 1
 	#define CONFIG_CMD_RARP 1
-	#define CONFIG_HOSTNAME        KVim
+	#define CONFIG_HOSTNAME        Vim
 	#define CONFIG_ETHADDR         00:15:18:01:81:31   /* Ethernet address */
 	#define CONFIG_IPADDR          10.18.9.97          /* Our ip address */
 	#define CONFIG_GATEWAYIP       10.18.9.1           /* Our getway ip address */
