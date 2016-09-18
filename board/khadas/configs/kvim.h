@@ -198,7 +198,7 @@
                 "echo Detect function key;"\
                 "if gpio input GPIOAO_2; then "\
                     "echo Detect combine keys;"\
-                    "store init 3; fi;"\
+                    "store init 3; reboot; fi;"\
             "fi;"\
             "\0"\
         "upgrade_key="\
